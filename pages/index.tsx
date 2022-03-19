@@ -23,7 +23,7 @@ const Index = () => {
       (total, item) => total + item.quantity! * item.price,
       0
     ),
-    reference: uuidv4(),
+    // reference: uuidv4(),
     onSuccess: () => {
       // handle response here
       router.push("/sucess");
