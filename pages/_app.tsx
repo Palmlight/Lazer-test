@@ -5,6 +5,8 @@ import type { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
+import debounce from "debounce";
+import { saveState } from "../redux/storage";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -13,6 +15,12 @@ type NextPageWithLayout = NextPage & {
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
+
+store.subscribe(
+  debounce(() => {
+    saveState(store.getState());
+  }, 800)
+);
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? (page => page);
